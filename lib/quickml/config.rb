@@ -81,6 +81,8 @@ module QuickML
 
       @confirm_ml_creation = (config[:confirm_ml_creation] or false)
 
+      @sendhook_cmd = (config[:sendhook_cmd] or nil)
+
       instance_variables.each {|name|
 	self.class.class_eval { attr_reader name.delete('@') }
       }

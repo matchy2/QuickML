@@ -107,6 +107,12 @@ module QuickML
       end
 
       init_ml_config
+
+      unless @sendhook_cmd.to_s == '' then
+	system(@sendhook_cmd, @name, @members_file);
+        @logger.log "[#{@name}]: SendHook command #{@sendhook_cmd} result is #{$?}"
+      end
+
       init_members
       init_count
       init_charset
@@ -155,6 +161,8 @@ module QuickML
                                  @config.ml_alert_time)
       @auto_unsubscribe_count = (ml_config[:auto_unsubscribe_count] or 
                                  @config.auto_unsubscribe_count)
+      @sendhook_cmd           = (ml_config[:sendhook_cmd] or 
+                                 @config.sendhook_cmd)
       write_ml_config
     end
 
@@ -432,6 +440,11 @@ module QuickML
 	f.printf("  :%s => %d,\n", :ml_alert_time,   @ml_alert_time)
 	f.printf("  :%s => %d,\n", :auto_unsubscribe_count, 
                  @auto_unsubscribe_count)
+	if @sendhook_cmd.to_s == '' then
+	  f.printf("  :%s => nil,\n", :sendhook_cmd)
+	else          
+	  f.printf("  :%s => '%s',\n", :sendhook_cmd, @sendhook_cmd)
+	end
 	f.puts "}"
       }
     end

@@ -46,4 +46,7 @@ Config = {
   :sender_addresses => [
       '^.+@example\.net$',
   ],
+
+  :sendhook_cmd => '',
+
 }
